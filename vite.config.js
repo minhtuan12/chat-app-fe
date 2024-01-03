@@ -1,4 +1,4 @@
-import {defineConfig, transformWithEsbuild} from 'vite'
+import { defineConfig, transformWithEsbuild } from 'vite'
 import react from '@vitejs/plugin-react'
 
 export default defineConfig({
@@ -12,19 +12,19 @@ export default defineConfig({
                 // transforming with esbuild
                 return transformWithEsbuild(code, id, {
                     loader: 'jsx',
-                    jsx: 'automatic',
+                    jsx: 'automatic'
                 })
-            },
+            }
         },
-        react(),
+        react()
     ],
 
     optimizeDeps: {
         force: true,
         esbuildOptions: {
             loader: {
-                '.js': 'jsx',
-            },
-        },
-    },
+                '.js': 'jsx'
+            }
+        }
+    }
 })

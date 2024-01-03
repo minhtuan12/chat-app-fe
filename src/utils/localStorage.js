@@ -1,11 +1,11 @@
-const AUTH_TOKEN_STORE_KEY = 'token';
+const AUTH_TOKEN_STORE_KEY = 'token'
 
 export const removeAuthToken = () => {
-    return localStorage.removeItem(AUTH_TOKEN_STORE_KEY);
+    return localStorage.removeItem(AUTH_TOKEN_STORE_KEY)
 }
 
 export const setAuthToken = (token) => {
-    return localStorage.setItem(AUTH_TOKEN_STORE_KEY, token);
+    return localStorage.setItem(AUTH_TOKEN_STORE_KEY, token)
 }
 
 export const getAuthToken = () => {
@@ -13,9 +13,9 @@ export const getAuthToken = () => {
 }
 
 export const hasAuthToken = () => {
-    return !!getAuthToken();
+    return !!getAuthToken()
 }
 
 export const removeItem = (name) => {
-    return localStorage.removeItem(name);
+    return localStorage.removeItem(name)
 }

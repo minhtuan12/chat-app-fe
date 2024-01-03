@@ -1,4 +1,4 @@
-import {all, fork} from "redux-saga/effects";
+import { all, fork } from 'redux-saga/effects'
 
 function* loadRouteData() {
     //
@@ -11,5 +11,5 @@ export default function* loadProfileSaga() {
     yield all([
         fork(loadRouteData),
         fork(handleActions)
-    ]);
+    ])
 }

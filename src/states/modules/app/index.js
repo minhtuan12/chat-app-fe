@@ -1,4 +1,4 @@
-import {createSlice} from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit'
 
 const appSlice = createSlice({
     name: 'app',
@@ -11,11 +11,11 @@ const appSlice = createSlice({
             params: {},
             query: {}
         },
-        title: " ",
+        title: '',
         goToPage: {
-            path: "",
+            path: '',
             redirected: true
-        },
+        }
     },
     reducers: {
         setBreadcrumb: (state, action) => ({
@@ -27,8 +27,8 @@ const appSlice = createSlice({
             location: {
                 pathName: action.payload.pathName,
                 prevPathName: action.payload.prevPathName || null,
-                params: {...(action.payload.params || {})},
-                query: {...(action.payload.query || {})}
+                params: { ...(action.payload.params || {}) },
+                query: { ...(action.payload.query || {}) }
             }
         }),
         setTitlePage: (state, action) => ({
@@ -52,7 +52,7 @@ const appSlice = createSlice({
                 ...state.goToPage,
                 redirected: true
             }
-        }),
+        })
     }
 })
 
@@ -62,4 +62,4 @@ export const {
     setBreadcrumb, setLocation, setTitlePage
 } = appSlice.actions
 
-export default appSlice.reducer;
+export default appSlice.reducer

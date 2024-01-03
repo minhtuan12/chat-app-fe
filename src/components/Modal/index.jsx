@@ -1,13 +1,14 @@
-import React from 'react';
-import {Modal} from "antd";
-import './styles.scss';
+import React from 'react'
+import { Modal } from 'antd'
+import './styles.scss'
 import styles from './styles.module.scss'
 
 export default function ModalDefault(props) {
-    const {isModalOpen, handleOk, handleCancel, children, title} = props;
+    // eslint-disable-next-line react/prop-types
+    const { isModalOpen, handleOk, handleCancel, children, title } = props
     return (
         <Modal
-            className={`general-dialog-wrap`}
+            className={'general-dialog-wrap'}
             open={isModalOpen}
             onOk={handleOk}
             onCancel={handleCancel}
@@ -22,5 +23,5 @@ export default function ModalDefault(props) {
                 {children}
             </div>
         </Modal>
-    );
+    )
 }
