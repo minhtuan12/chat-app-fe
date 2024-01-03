@@ -1,10 +1,10 @@
-import {createSlice} from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit'
 
 const routingSlice = createSlice({
     name: 'routing',
     initialState: {},
     reducers: {
-        initialSaga: (state) => ({...state})
+        initialSaga: (state) => ({ ...state })
     }
 })
 
@@ -12,4 +12,4 @@ export const {
     initialSaga
 } = routingSlice.actions
 
-export default routingSlice.reducer;
+export default routingSlice.reducer

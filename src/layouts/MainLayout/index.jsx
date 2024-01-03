@@ -1,42 +1,43 @@
-import React, {useEffect} from 'react';
-import styles from './styles.module.scss';
-import SideBar from "./SiderBar";
-import Header from "./Header";
-import {useDispatch, useSelector} from "react-redux";
-import {Link, useNavigate} from "react-router-dom";
-import {goToPageSuccess} from "../../states/modules/app";
+import React, { useEffect } from 'react'
+import styles from './styles.module.scss'
+import SideBar from './SiderBar'
+import Header from './Header'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link, useNavigate } from 'react-router-dom'
+import { goToPageSuccess } from '../../states/modules/app'
 
 function MainLayout(props) {
-    const {children} = props;
-    const isShowSideBar = useSelector(state => state.app.isShowSideBar);
-    const isThemeLight = useSelector(state => state.app.isThemeLight);
-    const titlePage = useSelector(state => state.app.title);
-    const goToPage = useSelector(state => state.app.goToPage);
-    const breadcrumb = useSelector(state => state.app.breadcrumb);
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
+    // eslint-disable-next-line react/prop-types
+    const { children } = props
+    const isShowSideBar = useSelector(state => state.app.isShowSideBar)
+    const isThemeLight = useSelector(state => state.app.isThemeLight)
+    const titlePage = useSelector(state => state.app.title)
+    const goToPage = useSelector(state => state.app.goToPage)
+    const breadcrumb = useSelector(state => state.app.breadcrumb)
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
 
     useEffect(() => {
         if (goToPage.path && !goToPage.redirected) {
-            dispatch(goToPageSuccess());
-            navigate(goToPage.path);
+            dispatch(goToPageSuccess())
+            navigate(goToPage.path)
         }
-    }, [goToPage, navigate, dispatch]);
+    }, [goToPage, navigate, dispatch])
 
     const handleRenderItemBreadCrumb = (index, item) => {
         switch (index) {
-            case 0:
-                return (
-                    <><Link to={'/'}><span className={`${styles.text}`}>Trang chủ</span></Link> - </>
-                );
-            case breadcrumb.length - 1:
-                return (
-                    <Link to={item.path}><span className={`${styles.text}`}>{item.name}</span></Link>
-                );
-            default:
-                return (
-                    <><Link to={item.path}><span className={`${styles.text}`}>{item.name}</span></Link> - </>
-                );
+        case 0:
+            return (
+                <><Link to={'/'}><span className={`${styles.text}`}>Trang chủ</span></Link> - </>
+            )
+        case breadcrumb.length - 1:
+            return (
+                <Link to={item.path}><span className={`${styles.text}`}>{item.name}</span></Link>
+            )
+        default:
+            return (
+                <><Link to={item.path}><span className={`${styles.text}`}>{item.name}</span></Link> - </>
+            )
         }
     }
 
@@ -68,7 +69,7 @@ function MainLayout(props) {
                 </div>
             </div>
         </div>
-    );
+    )
 }
 
-export default MainLayout;
+export default MainLayout

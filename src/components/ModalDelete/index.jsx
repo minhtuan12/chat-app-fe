@@ -1,18 +1,21 @@
-import React from 'react';
-import {Button, Modal} from "antd";
-import './styles.scss';
-import styles from './styles.module.scss';
-import CircleExclamation from "../../assets/images/icons/light/circle-exclamation.svg";
-import InlineSVG from "react-inlinesvg";
+import React from 'react'
+import { Button, Modal } from 'antd'
+import './styles.scss'
+import styles from './styles.module.scss'
+import CircleExclamation from '../../assets/images/icons/light/circle-exclamation.svg'
+import InlineSVG from 'react-inlinesvg'
 
 export default function ModalDeleteDefault(props) {
     const {
+        // eslint-disable-next-line react/prop-types
         isModalOpen, loading, content, contentBtn,
-        handleOk, handleCancel, handleConfirm,
-    } = props;
+        // eslint-disable-next-line react/prop-types
+        handleOk, handleCancel, handleConfirm
+    } = props
+
     return (
         <Modal
-            className={`general-dialog-wrap`}
+            className={'general-dialog-wrap'}
             open={isModalOpen}
             onOk={handleOk}
             onCancel={handleCancel}
@@ -30,14 +33,14 @@ export default function ModalDeleteDefault(props) {
                 </div>
                 <div className={'flex justify-center mb-[20px]'}>
                     <Button
-                        className={`main-btn-close mx-[5px]`}
+                        className={'main-btn-close mx-[5px]'}
                         size={'large'}
                         onClick={() => handleCancel()}
                     >Đóng
                     </Button>
                     <Button
                         loading={loading}
-                        className={`btn-delete mx-[5px]`}
+                        className={'btn-delete mx-[5px]'}
                         type={'primary'}
                         size={'large'}
                         onClick={() => handleConfirm()}
@@ -47,5 +50,5 @@ export default function ModalDeleteDefault(props) {
                 </div>
             </div>
         </Modal>
-    );
+    )
 }
