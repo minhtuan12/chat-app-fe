@@ -45,24 +45,14 @@ function MainLayout(props) {
         <div className={`${styles.boxMainLayout}`}>
             <div className={styles.headerBox}></div>
             <div className={styles.mainLayoutWrap}>
-                <SideBar
-                    isThemeLight={isThemeLight}
-                    isShowSideBar={isShowSideBar}
-                />
+                {/*<SideBar*/}
+                {/*    isThemeLight={isThemeLight}*/}
+                {/*    isShowSideBar={isShowSideBar}*/}
+                {/*/>*/}
                 <div className={`${styles.mainWrap} ${!isShowSideBar ? styles.mainWrapWithConditionSideBarClose : ''}`}>
                     <Header/>
                     <main className={styles.mainContentWrap}>
                         <div className={styles.content}>
-                            <div className={styles.headerMainWrap}>
-                                <div className={styles.titleWrap}>{titlePage}</div>
-                                <div className={styles.breadcrumbWrap}>
-                                    {
-                                        breadcrumb.map((item, index) => {
-                                            return <span key={index}>{(handleRenderItemBreadCrumb(index, item))}</span>
-                                        })
-                                    }
-                                </div>
-                            </div>
                             {children}
                         </div>
                     </main>
