@@ -1,0 +1,15 @@
+.cardWrap {
+    .info {
+        .username {
+            @apply text-base
+        }
+
+        .name {
+            @apply text-sm opacity-75
+        }
+
+        @apply ml-5
+    }
+
+    @apply flex items-center h-[55px] bg-[#456] mb-5 rounded-full p-3 cursor-pointer text-white select-none
+}

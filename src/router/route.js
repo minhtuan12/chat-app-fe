@@ -16,7 +16,7 @@ const router = createBrowserRouter([
         path: '',
         element: <Home/>,
         loader: ({ request, params }) => rootLoader(
-            { request, params }, true
+            { request, params }, true, 'LOAD_CHAT_PAGE'
         )
     }
 ])

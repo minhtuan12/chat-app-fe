@@ -1,0 +1,4 @@
+.messageWrap {
+    @apply flex-1 my-5 border-b-[1px] overflow-y-hidden hover:overflow-y-auto scroll-smooth ease-linear;
+    scrollbar-gutter: stable both-edges;
+}

@@ -123,7 +123,8 @@ export default {
                 'sub-wrap': 'subWrap 0.3s'
             },
             boxShadow: {
-                'card-box': '0px 3px 4px 0px rgba(0, 0, 0, 0.03)'
+                'card-box': '0px 3px 4px 0px rgba(0, 0, 0, 0.03)',
+                'message-card': 'rgb(38, 57, 77) 0px 20px 30px -10px'
             }
         }
     },
