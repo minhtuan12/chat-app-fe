@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import MainLayout from '../../layouts/MainLayout/index.jsx'
 import { useDispatch, useSelector } from 'react-redux'
-import { setBreadcrumb, setTitlePage } from '../../states/modules/app/index.js'
 import styles from './styles.module.scss'
 import FriendCard from './components/FriendCard/index.jsx'
 import { Avatar, Input } from 'antd'
 import ImageUser from '../../assets/images/logos/user_default.png'
 import Welcome from '../../assets/images/thumbnails/welcome.png'
-import { setActiveFriend } from '../../states/modules/chat/index.js'
+import { refreshState, setActiveFriend, setOldMessages } from '../../states/modules/chat/index.js'
 import { SendOutlined } from '@ant-design/icons'
 import { getOldMessages } from '../../api/chat/index.js'
 import MessagesContainer from './components/MessagesContainer/index.jsx'
@@ -21,6 +20,7 @@ function Home() {
 
     const handleSetActiveFriend = (activeFriend) => {
         dispatch(setActiveFriend(activeFriend))
+        dispatch(setOldMessages([]))
         if (activeFriend.room) {
             dispatch(getOldMessages(activeFriend.room?._id))
         }
@@ -34,9 +34,8 @@ function Home() {
     }
 
     useEffect(() => {
-        dispatch(setTitlePage(''))
-        dispatch(setBreadcrumb([]))
-    })
+        return () => dispatch(refreshState())
+    }, [])
 
     return (
         <MainLayout>
@@ -62,7 +61,7 @@ function Home() {
                                 <span className={'ml-4'}>{activeFriend.name}</span>
                             </div>
                             <MessagesContainer/>
-                            <div>
+                            <div className={'border-t-[1px] pt-[20px]'}>
                                 <Input size={'large'} placeholder={`Tin nhắn tới ${activeFriend.name}`}
                                     value={sendMessage} onChange={handleChangeInput}
                                     suffix={<SendOutlined className={'cursor-pointer'}

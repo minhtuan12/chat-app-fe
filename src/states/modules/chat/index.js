@@ -1,14 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit'
 
+const initialState = {
+    activeFriend: null,
+    listFriends: [],
+    loadingGetListFriends: false,
+    oldMessages: [],
+    loadingGetOldMessages: false
+}
+
 const chatSlice = createSlice({
     name: 'chat',
-    initialState: {
-        activeFriend: null,
-        listFriends: [],
-        loadingGetListFriends: false,
-        oldMessages: [],
-        loadingGetOldMessages: false
-    },
+    initialState: initialState,
     reducers: {
         setActiveFriend: (state, action) => ({
             ...state,
@@ -43,6 +45,13 @@ const chatSlice = createSlice({
             ...state,
             loadingGetOldMessages: false,
             oldMessages: []
+        }),
+        setOldMessages: (state, action) => ({
+            ...state,
+            oldMessages: action.payload
+        }),
+        refreshState: () => ({
+            ...initialState
         })
     }
 })
@@ -51,7 +60,9 @@ const chatSlice = createSlice({
 export const {
     setActiveFriend,
     startGetListFriends, getListFriendsSuccessfully, getListFriendsFail,
-    startGetOldMessages, getOldMessagesSuccessfully, getOldMessagesFail
+    startGetOldMessages, getOldMessagesSuccessfully, getOldMessagesFail,
+    setOldMessages,
+    refreshState
 } = chatSlice.actions
 
 export default chatSlice.reducer
