@@ -1,24 +1,50 @@
 import React, { useEffect, useRef } from 'react'
 import { Avatar } from 'antd'
 import moment from 'moment'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import styles from './styles.module.scss'
+import socketService from '../../../../socket/index.js'
+import { appendMessages, setIsKeepScroll } from '../../../../states/modules/chat/index.js'
 
-export default function MessagesContainer() {
+export default function MessagesContainer(props) {
     const oldMessages = useSelector(state => state.chat.oldMessages)
     const activeFriend = useSelector(state => state.chat.activeFriend)
+    const isKeepScroll = useSelector(state => state.chat.isKeepScroll)
     const me = useSelector(state => state.auth.authUser)
+    const dispatch = useDispatch()
     const messageRef = useRef()
     let messageCount = 0
     let time = null
 
-    useEffect(() => {
-        if (messageRef?.current) {
-            messageRef.current.scrollTop = messageRef.current.scrollHeight
+    const handleScrollMessages = (e) => {
+        if (e.target.scrollHeight - e.target.scrollTop - e.target.offsetHeight < 200) {
+            dispatch(setIsKeepScroll(false))
+            // eslint-disable-next-line react/prop-types
+            props.setScrollToBottom(false)
+        } else {
+            dispatch(setIsKeepScroll(true))
+            // eslint-disable-next-line react/prop-types
+            props.setScrollToBottom(true)
         }
-    }, [oldMessages])
+        // eslint-disable-next-line react/prop-types
+        props.confirmSeenMessage()
+    }
 
-    return <div className={styles.messageWrap} ref={messageRef}>
+    useEffect(() => {
+        if (messageRef?.current && !isKeepScroll) {
+            messageRef.current.scrollTop = messageRef.current?.scrollHeight - messageRef.current?.offsetHeight
+        }
+    }, [oldMessages, isKeepScroll])
+
+    useEffect(() => {
+        const socket = socketService.getSocket()
+        socket.on('chat-message', (msg) => {
+            dispatch(appendMessages(msg))
+        })
+    }, [])
+
+    // eslint-disable-next-line react/prop-types
+    return <div className={styles.messageWrap} ref={messageRef} onClick={props.confirmSeenMessage} onScroll={handleScrollMessages}>
         {
             oldMessages?.map((message, index) => {
                 time = moment(message.created_at).format('HH:mm')
@@ -27,7 +53,7 @@ export default function MessagesContainer() {
                 !isMe ? messageCount++ : messageCount = 0
 
                 return (
-                    <div key={message._id}
+                    <div key={index}
                         className={`w-full flex ${isMe ? 'justify-end' : ''}`}>
                         <div className={'flex mb-[6px]'}>
                             {isMe ? <div className={'w-[116px]'}></div> : ''}

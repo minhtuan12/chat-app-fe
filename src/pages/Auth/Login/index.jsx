@@ -41,6 +41,11 @@ function Login() {
                     placeholder={'Mật khẩu'}
                     value={loginData.password}
                     onChange={e => handleChangeLoginData(e.target.value, 'password')}
+                    onKeyPress={e => {
+                        if (e.key === 'Enter') {
+                            handleLogin()
+                        }
+                    }}
                 />
             </div>
 

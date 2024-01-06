@@ -16,7 +16,15 @@
 
     .rightWrap {
         .rightWrapHeader {
-            @apply text-slate-200 h-[50px] text-lg border-b-[1px]
+            .dot {
+                @apply absolute top-[12px] right-[3px];
+
+                & > :first-child {
+                    @apply w-[8px] h-[8px];
+                }
+            }
+
+            @apply text-slate-200 h-[50px] text-lg border-b-[1px];
         }
 
         .welcomeWrap {
@@ -27,7 +35,7 @@
             @apply rounded-2xl w-full h-full flex bg-[#21cbde]
         }
 
-        @apply bg-[#567] w-[calc(100vw_-_400px)] rounded-2xl p-5 flex flex-col
+        @apply relative bg-[#567] w-[calc(100vw_-_400px)] rounded-2xl p-5 flex flex-col
     }
 
     @apply flex justify-between bg-[#000] h-[calc(100vh_-_140px)] rounded-2xl p-5
