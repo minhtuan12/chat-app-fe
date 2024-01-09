@@ -54,23 +54,23 @@ export const getNotification = (type, content, duration = 3, align = 'top') => {
 const handleGetTypeNotification = (type) => {
     let typeNotification = {}
     switch (type) {
-        case 'error':
-            typeNotification = {
-                className: 'notification-error',
-                icon: error
-            }
-            break
-        case 'warning':
-            typeNotification = {
-                className: 'notification-warning',
-                icon: warning
-            }
-            break
-        default:
-            typeNotification = {
-                className: 'notification-success',
-                icon: success
-            }
+    case 'error':
+        typeNotification = {
+            className: 'notification-error',
+            icon: error
+        }
+        break
+    case 'warning':
+        typeNotification = {
+            className: 'notification-warning',
+            icon: warning
+        }
+        break
+    default:
+        typeNotification = {
+            className: 'notification-success',
+            icon: success
+        }
     }
     return typeNotification
 }
@@ -146,4 +146,12 @@ export const convertQueryStringToObject = (queryString) => {
     }
 
     return result
+}
+
+export const createRoomChatPrivateName = (id) => {
+    return `room-chat-private-${id}`
+}
+
+export const createRoomNotifyName = (id) => {
+    return `room-notify-private-${id}`
 }
