@@ -29,7 +29,7 @@ function Login() {
             <div className={'input-wrap'}>
                 <Input
                     className={'base-input'}
-                    placeholder={'Username'}
+                    placeholder={'Email'}
                     value={loginData.username}
                     onChange={e => handleChangeLoginData(e.target.value, 'username')}
                 />
