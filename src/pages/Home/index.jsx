@@ -3,10 +3,11 @@ import MainLayout from '../../layouts/MainLayout/index.jsx'
 import { useDispatch, useSelector } from 'react-redux'
 import styles from './styles.module.scss'
 import FriendCard from './components/FriendCard/index.jsx'
-import { Avatar, Badge, Button, Input } from 'antd'
+import { Avatar, Badge, Button, Input, Popover } from 'antd'
 import ImageUser from '../../assets/images/logos/user_default.png'
 import Welcome from '../../assets/images/thumbnails/welcome.png'
 import {
+    appendMessages,
     refreshState,
     setActiveFriend,
     setHasUnseenMessages,
@@ -14,7 +15,7 @@ import {
     setListFriends,
     setOldMessages
 } from '../../states/modules/chat/index.js'
-import { DownOutlined, SendOutlined } from '@ant-design/icons'
+import { DownOutlined, SendOutlined, SmileOutlined } from '@ant-design/icons'
 import { getOldMessages, requestConfirmSeenMessage, requestSendMessage } from '../../api/chat/index.js'
 import MessagesContainer from './components/MessagesContainer/index.jsx'
 import socketService from '../../socket/index.js'
@@ -24,6 +25,8 @@ import ENUM from '../../utils/constants.js'
 import DotFlashing from '../../components/DotFlashing/index.jsx'
 import { useDebounce } from '../../utils/hooks.js'
 import messageAudio from '../../assets/audio/message-notify.mp3'
+import data from '@emoji-mart/data'
+import Picker from '@emoji-mart/react'
 
 function Home() {
     const dispatch = useDispatch()
@@ -69,8 +72,12 @@ function Home() {
         }
     }
 
-    const handleChangeInput = (e) => {
-        setSendMessage(e.target.value)
+    const handleChangeInput = (value, type) => {
+        if (type === 'text') {
+            setSendMessage(value)
+        } else {
+            setSendMessage(prev => prev + value.native)
+        }
     }
 
     const handleSendMessage = () => {
@@ -161,7 +168,6 @@ function Home() {
             })
             if (listUnseenMessages.length > 0) {
                 dispatch(setListFriends(newListFriend))
-
                 dispatch(setOldMessages(updatedOldMessages))
                 dispatch(requestConfirmSeenMessage({
                     room_id: activeFriend.room._id,
@@ -230,14 +236,18 @@ function Home() {
             case 'has-new-message':
                 // eslint-disable-next-line no-case-declarations
                 const activeFriend = store.getState().chat.activeFriend
+                // eslint-disable-next-line no-case-declarations
+                const isKeepScroll = store.getState().chat.isKeepScroll
+                setUserTyping({})
                 if (res.data.sender_id === activeFriend?._id) {
                     dispatch(setHasUnseenMessages(true))
                 }
-                handleUpdateCountUnseenInListFriends(res.data.sender_id)
-                setUserTyping({})
-                if (audioMessage) {
-                    audioMessage.currentTime = 0
-                    audioMessage.play()
+                if (isKeepScroll || (!isKeepScroll && activeFriend?._id !== res.data.sender_id)) {
+                    handleUpdateCountUnseenInListFriends(res.data.sender_id)
+                    if (audioMessage) {
+                        audioMessage.currentTime = 0
+                        audioMessage.play()
+                    }
                 }
                 break
             default:
@@ -248,6 +258,44 @@ function Home() {
             const activeFriend = store.getState().chat.activeFriend
             if (activeFriend?._id === senderId) {
                 setUserTyping({ value: activeFriend.name })
+            }
+        })
+        socket.on('chat-message', (msg) => {
+            dispatch(appendMessages(msg))
+            const isKeepScroll = store.getState().chat.isKeepScroll
+            if ((me._id !== msg.creator_id) && !isKeepScroll) {
+                const activeFriend = store.getState().chat.activeFriend
+                dispatch(requestConfirmSeenMessage({
+                    room_id: activeFriend?.room?._id,
+                    list_message: [msg._id]
+                }))
+            }
+        })
+        socket.on('seen-message', res => {
+            const activeFriend = store.getState().chat.activeFriend
+            if (activeFriend?.room?._id === res.room_id) {
+                const oldMessages = store.getState().chat.oldMessages
+                let updatedOldMessages = []
+                if (res.seen_all) {
+                    updatedOldMessages = oldMessages?.map(message => {
+                        return {
+                            ...message,
+                            status: ENUM.MESSAGE_STATUS['SEEN']
+                        }
+                    })
+                } else {
+                    updatedOldMessages = oldMessages?.map(message => {
+                        if (res.list_message?.includes(message._id)) {
+                            return {
+                                ...message,
+                                status: ENUM.MESSAGE_STATUS['SEEN']
+                            }
+                        }
+                        return message
+                    })
+                }
+
+                dispatch(setOldMessages(updatedOldMessages))
             }
         })
 
@@ -293,7 +341,7 @@ function Home() {
                     {
                         activeFriend ? <>
                             <div className={`${styles.rightWrapHeader}`}>
-                                <span className={'relative'}>
+                                <span className={'relative select-none'}>
                                     <Avatar size={45} src={activeFriend.avatar || ImageUser} alt={''}/>
                                     {activeFriend.account_status ?
                                         <Badge status={'processing'} className={styles.dot}/> : ''}
@@ -312,9 +360,17 @@ function Home() {
                                 <Input
                                     ref={inputRef}
                                     size={'large'} placeholder={`Tin nhắn tới ${activeFriend.name}`}
-                                    value={sendMessage} onChange={handleChangeInput}
-                                    suffix={<SendOutlined className={'cursor-pointer'}
-                                        onClick={handleSendMessage}/>}
+                                    value={sendMessage} onChange={e => handleChangeInput(e.target.value, 'text')}
+                                    suffix={
+                                        <>
+                                            <Popover content={<Picker data={data} onEmojiSelect={e => handleChangeInput(e, 'emoji')}/>} trigger="click">
+                                                <SmileOutlined />
+                                            </Popover>
+                                            <SendOutlined className={'cursor-pointer'}
+                                                onClick={handleSendMessage}/>
+                                        </>
+                                    }
+                                    onInput={confirmSeenMessage}
                                     onClick={confirmSeenMessage}
                                     onFocus={confirmSeenMessage}
                                     onKeyPress={e => {

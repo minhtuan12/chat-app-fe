@@ -1,4 +1,4 @@
 .messageWrap {
-    @apply flex-1 mt-5 overflow-y-hidden hover:overflow-y-auto ease-linear mx-[-20px] px-[20px] pb-[20px];
+    @apply flex-1 mt-5 overflow-y-auto mx-[-20px] px-[20px] pb-[20px] overflow-x-hidden;
     scrollbar-gutter: stable both-edges;
 }
