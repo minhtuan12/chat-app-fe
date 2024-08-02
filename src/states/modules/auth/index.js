@@ -1,11 +1,11 @@
-import {createSlice} from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit'
 
 const authSlice = createSlice({
     name: 'auth',
     initialState: {
         isAuthSuccess: false,
         authUser: {},
-        isLoadingBtnLogin: false,
+        isLoadingBtnLogin: false
     },
     reducers: {
         startRequestLogin: (state) => ({
@@ -21,31 +21,33 @@ const authSlice = createSlice({
             isLoadingBtnLogin: false
         }),
         startRequestGetMe: (state) => ({
-            ...state,
+            ...state
         }),
-        startRequestGetMeSuccess: (state, action) => ({
-            ...state,
-            isAuthSuccess: true,
-            authUser: action.payload.data
-        }),
-        startRequestGetMeFail: (state) => ({
-            ...state,
-            isAuthSuccess: false,
-            authUser: {}
-        }),
+        startRequestGetMeSuccess: (state, action) => {
+            return ({
+                ...state,
+                isAuthSuccess: true,
+                authUser: action.payload
+            })
+        },
+        startRequestGetMeFail: (state) => {
+            return ({
+                ...state,
+                isAuthSuccess: false,
+                authUser: {}
+            })
+        },
         setAuthSuccess: (state, action) => ({
             ...state,
             isAuthSuccess: action.payload
-        }),
+        })
     }
 })
 
 export const {
-    setErrorLogin, setErrorForgotPassword, setErrorResetPassword, setAuthSuccess,
+    setAuthSuccess,
     startRequestLogin, startRequestLoginSuccess, startRequestLoginFail,
-    startRequestGetMe, startRequestGetMeSuccess, startRequestGetMeFail,
-    startRequestForgotPassword, startRequestForgotPasswordSuccess, startRequestForgotPasswordFail,
-    startRequestResetPassword, startRequestResetPasswordSuccess, startRequestResetPasswordFail,
+    startRequestGetMe, startRequestGetMeSuccess, startRequestGetMeFail
 } = authSlice.actions
 
-export default authSlice.reducer;
+export default authSlice.reducer

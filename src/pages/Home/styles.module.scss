@@ -1,3 +1,42 @@
-.boxChartWrap {
-    @apply p-8 h-full rounded-lg bg-white border border-gray-110 shadow-card-box;
+.chatWrap {
+    .leftWrap {
+        .leftWrapHeader {
+            @apply text-center text-slate-200 h-[50px] text-lg border-b-[1px]
+        }
+
+        .leftWrapContent {
+            .friendItem {
+            }
+
+            @apply mt-6
+        }
+
+        @apply bg-[#123] w-[300px] rounded-2xl p-5
+    }
+
+    .rightWrap {
+        .rightWrapHeader {
+            .dot {
+                @apply absolute top-[12px] right-[3px];
+
+                & > :first-child {
+                    @apply w-[8px] h-[8px];
+                }
+            }
+
+            @apply text-slate-200 h-[50px] text-lg border-b-[1px];
+        }
+
+        .welcomeWrap {
+            img {
+                @apply m-auto rounded-2xl select-none
+            }
+
+            @apply rounded-2xl w-full h-full flex bg-[#21cbde]
+        }
+
+        @apply relative bg-[#567] w-[calc(100vw_-_400px)] rounded-2xl p-5 flex flex-col
+    }
+
+    @apply flex justify-between bg-[#000] h-[calc(100vh_-_140px)] rounded-2xl p-5
 }

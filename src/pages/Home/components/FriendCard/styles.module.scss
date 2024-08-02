@@ -1,0 +1,22 @@
+.cardWrap {
+    .dot {
+        @apply absolute bottom-0 right-[2px];
+        & > :first-child {
+            @apply w-[8px] h-[8px];
+        }
+    }
+
+    .info {
+        .username {
+            @apply text-base
+        }
+
+        .name {
+            @apply text-sm opacity-75
+        }
+
+        @apply ml-3
+    }
+
+    @apply flex items-center h-[55px] bg-[#456] mb-5 rounded-full p-3 cursor-pointer text-white select-none
+}

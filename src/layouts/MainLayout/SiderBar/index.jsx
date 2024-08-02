@@ -1,21 +1,19 @@
-import React, {useState} from 'react';
-import styles from './styles.module.scss';
-import PropTypes from 'prop-types';
-import {
-    MenuFoldOutlined
-} from "@ant-design/icons";
-import Logo from '../../../assets/images/logos/zent.png';
-import IconLogo from '../../../assets/images/logos/icon_zent.png';
-import NavItem from "./components/NavItem";
-import {routeMap} from "../../../router/routeMap";
-import {handleCheckRoute} from "../../../utils/helper";
-import {useLocation, useNavigate} from "react-router-dom";
-import {useDispatch} from "react-redux";
-import {handleSetIsShowSideBar} from "../../../states/modules/app";
+import React, { useState } from 'react'
+import styles from './styles.module.scss'
+import PropTypes from 'prop-types'
+import { MenuFoldOutlined } from '@ant-design/icons'
+import Logo from '../../../assets/images/logos/zent.png'
+import IconLogo from '../../../assets/images/logos/icon_zent.png'
+import NavItem from './components/NavItem'
+import { routeMap } from '../../../router/routeMap'
+import { handleCheckRoute } from '../../../utils/helper'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { handleSetIsShowSideBar } from '../../../states/modules/app'
 
 SideBar.prototype = {
     isShowSideBar: PropTypes.bool.isRequired,
-    handleToggleIsShowSideBar: PropTypes.func,
+    handleToggleIsShowSideBar: PropTypes.func
 }
 
 SideBar.defaultProps = {
@@ -23,13 +21,14 @@ SideBar.defaultProps = {
 }
 
 function SideBar(props) {
-    const {isShowSideBar, handleToggleIsShowSideBar} = props
-    const [indexNavItemSelect, setIndexNavItemSelect] = useState(null);
-    const [menuSub, setMenuSub] = useState([]);
-    const [topMenuSub, setTopMenuSub] = useState(0);
-    const location = useLocation();
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
+    // eslint-disable-next-line react/prop-types
+    const { isShowSideBar, handleToggleIsShowSideBar } = props
+    const [indexNavItemSelect, setIndexNavItemSelect] = useState(null)
+    const [menuSub, setMenuSub] = useState([])
+    const [topMenuSub, setTopMenuSub] = useState(0)
+    const location = useLocation()
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
 
     const handleToggleMenu = (indexNavItem, menuNavItem) => {
         if (menuNavItem.path) {
@@ -41,17 +40,17 @@ function SideBar(props) {
     }
 
     const handleHoverMenuNavItem = (e, menuNavItem) => {
-        const {top} = e.target.getBoundingClientRect();
-        setTopMenuSub(top);
+        const { top } = e.target.getBoundingClientRect()
+        setTopMenuSub(top)
         if (menuNavItem.children) {
-            setMenuSub(menuNavItem.children);
+            setMenuSub(menuNavItem.children)
         } else {
-            setMenuSub([]);
+            setMenuSub([])
         }
     }
 
     const handleLeaveMenuNavItem = () => {
-        setMenuSub([]);
+        setMenuSub([])
     }
 
     return (
@@ -105,8 +104,8 @@ function SideBar(props) {
 
             <div className={`${styles.btnToggleIsShowSideBar} ${!isShowSideBar ? styles.btnToggleIsHideSideBar : ''}`}>
                 <svg onClick={() => dispatch(handleSetIsShowSideBar(!isShowSideBar))} width="16" height="16"
-                     viewBox="0 0 16 16"
-                     fill="none" xmlns="http://www.w3.org/2000/svg">
+                    viewBox="0 0 16 16"
+                    fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M13.5.5 7.5 8l6 7.5" stroke="currentColor"/>
                     <path d="M8.5.5 2.5 8l6 7.5" stroke="currentColor"/>
                 </svg>
@@ -150,7 +149,7 @@ function SideBar(props) {
                     </div> : ''
             }
         </div>
-    );
+    )
 }
 
 export default SideBar

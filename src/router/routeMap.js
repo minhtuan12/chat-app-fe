@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 
 export const routeMap = [
     {
@@ -6,7 +6,7 @@ export const routeMap = [
         icon: (
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19.5 19.5" width="19.5" height="19.5">
                 <path className="fa-primary"
-                      fill="currentColor"
+                    fill="currentColor"
                       d="M8.531 3.047c0 -1.009 -0.819 -1.828 -1.828 -1.828H3.047c-1.009 0 -1.828 0.819 -1.828 1.828v3.656c0 1.009 0.819 1.828 1.828 1.828h3.656c1.009 0 1.828 -0.819 1.828 -1.828V3.047zm9.75 9.75c0 -1.009 -0.819 -1.828 -1.828 -1.828h-3.656c-1.009 0 -1.828 0.819 -1.828 1.828v3.656c0 1.009 0.819 1.828 1.828 1.828h3.656c1.009 0 1.828 -0.819 1.828 -1.828v-3.656z"/>
                 <path className="fa-secondary"
                       fill="currentColor"
@@ -15,6 +15,6 @@ export const routeMap = [
         ),
         path: '/',
         routeActive: ['/'],
-        permissions: [],
-    },
+        permissions: []
+    }
 ]

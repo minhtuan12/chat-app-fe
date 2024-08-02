@@ -1,6 +1,6 @@
 import {
     all, fork
-} from "redux-saga/effects";
+} from 'redux-saga/effects'
 
 function* loadRouteData() {
     yield
@@ -14,5 +14,5 @@ export default function* appSaga() {
     yield all([
         fork(loadRouteData),
         fork(handleActions)
-    ]);
+    ])
 }

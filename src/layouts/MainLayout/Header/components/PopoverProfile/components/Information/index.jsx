@@ -1,69 +1,62 @@
-import React from 'react';
-import {Button, Input} from "antd";
-import InlineSVG from "react-inlinesvg";
-import IconWarning from "../../../../../../../assets/images/icons/light/warning.svg";
-import Handle from "./handle.js";
+import React, { useEffect, useState } from 'react'
+import { Avatar, Button, Input } from 'antd'
+import { useSelector } from 'react-redux'
 
 export default function Information(props) {
-    const {
-        dataInformation, errorInformation, isLoadingBtnInformation,
-        handleChangeInput, handleConfirmUpdateInformation, handleKeyDown
-    } = Handle(props);
+    const [dataInformation, setDataInformation] = useState({
+        username: '',
+        name: '',
+        avatar: ''
+    })
+    const authUser = useSelector(state => state.auth.authUser)
+
+    useEffect(() => {
+        if (authUser) {
+            setDataInformation({
+                username: authUser.username,
+                name: authUser.name,
+                avatar: authUser.avatar
+            })
+        }
+    }, [authUser])
+
     return (
         <div>
-            <div className={`input-wrap`}>
+            <div>
                 <div className={'label-wrap'}>
-                    Tên tài khoản <span className={'required'}>*</span>
+                    Avatar
+                </div>
+                <Avatar src={dataInformation.avatar} alt={''}/>
+            </div>
+            <div className={'input-wrap'}>
+                <div className={'label-wrap'}>
+                    Tên tài khoản
                 </div>
                 <Input
-                    className={`main-input ${errorInformation && errorInformation.name.length > 0 ? 'error-input' : ''}`}
-                    placeholder={'Nhập tên tài khoản'}
+                    className={'main-input'}
+                    value={dataInformation.username}
+                />
+            </div>
+
+            <div className={'input-wrap'}>
+                <div className={'label-wrap'}>
+                    Họ và tên
+                </div>
+                <Input
+                    className={'main-input'}
                     value={dataInformation.name}
-                    onChange={(e) => handleChangeInput(e, 'name')}
-                    onKeyDown={(e) => handleKeyDown(e)}
                 />
-                {
-                    errorInformation && errorInformation.name.length > 0 ?
-                        <span className={'error'}>
-            <div className={'icon'}>
-              <InlineSVG src={IconWarning} width={14} height="auto"/>
-            </div>
-                            {errorInformation.name}
-          </span> : ''
-                }
             </div>
 
-            <div className={`input-wrap`}>
-                <div className={'label-wrap'}>
-                    Email <span className={'required'}>*</span>
-                </div>
-                <Input
-                    className={`main-input ${errorInformation && errorInformation.email.length > 0 ? 'error-input' : ''}`}
-                    placeholder={'Nhập email'}
-                    value={dataInformation.email}
-                    onChange={(e) => handleChangeInput(e, 'email')}
-                    onKeyDown={(e) => handleKeyDown(e)}
-                />
-                {
-                    errorInformation && errorInformation.email.length > 0 ?
-                        <span className={'error'}>
-            <div className={'icon'}>
-              <InlineSVG src={IconWarning} width={14} height="auto"/>
-            </div>
-                            {errorInformation.email}
-          </span> : ''
-                }
-            </div>
-
-            <div className={`flex justify-end`}>
+            <div className={'flex justify-end'}>
                 <Button
-                    loading={isLoadingBtnInformation}
                     type="primary"
                     size={'large'}
-                    className={`main-btn-primary !w-auto`}
+                    className={'main-btn-primary !w-auto'}
                     block
-                    onClick={() => handleConfirmUpdateInformation()}
-                >Lưu thông tin
+                    /* eslint-disable-next-line react/prop-types */
+                    onClick={() => props.setIsShowInformation(false)}
+                >Đóng
                 </Button>
             </div>
         </div>
